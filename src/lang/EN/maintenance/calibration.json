@@ -1,0 +1,38 @@
+{
+  "Calibration": "Calibration",
+  "status": {
+    "ready to start": {
+      "Title": "Calibrate filament"
+    },
+    "busy": {
+      "Title": "Calibrating",
+      "Caption": "Calibration in progress"
+    },
+    "rejected": {
+      "explanation": {
+        "CLOCKWISE": "Wehnelt cap not set to valid height. Please rotate the Wehnelt Cap {{amount}}° clockwise",
+        "COUNTERCLOCKWISE": "Wehnelt cap not set to valid height. Please rotate the Wehnelt Cap {{amount}}° counter clockwise",
+        "NONE": "Wehnelt cap not set to valid height."
+      },
+      "steps": {
+        "Vent": "Vent chamber",
+        "Open": "Open gun door",
+        "Adjust": "Adjust filament",
+        "Recalibrate": "Re-calibrate"
+      }
+    },
+    "complete": {
+      "Title": "Complete",
+      "Caption": "Calibration complete",
+      "Recommendation": "To complete the installation of a new filament, running a conditioning cycle is recommended."
+    },
+    "failed": {
+      "Title": "Failed",
+      "Caption": "Unable to validate filament"
+    }
+  },
+  "cancel": {
+    "Title": "Cancel calibration",
+    "Message": "Are you sure you want to cancel calibrating the filament?"
+  }
+}

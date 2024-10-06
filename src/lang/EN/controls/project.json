@@ -1,0 +1,86 @@
+{
+  "date": {
+    "Label": "Created:"
+  },
+  "notes": {
+    "Label": "Notes"
+  },
+  "description": {
+    "Label": "Description",
+    "Placeholder": "Add a description"
+  },
+  "Compare": "Compare",
+  "Cancel selection": "{{ selected }} selected",
+  "Open other project": "Open other project folder",
+  "inaccessible": {
+    "Message": "Unable to open project file. Make sure its disk location is available.",
+    "New": "Create new project",
+    "Other": "Open different project",
+    "Title": "Inaccessible project"
+  },
+  "filter": {
+    "None": "All",
+    "Snapshots": "Snapshots",
+    "Captures": "Captures",
+    "Spectra": "Spectra"
+  },
+  "compare": {
+    "side": {
+      "top": "A",
+      "bottom": "B"
+    }
+  },
+  "sorting": {
+    "stub": "Stub",
+    "timestamp": "Created at",
+    "detector": "Detector",
+    "note": "Label",
+    "voltageAccelerator": "HT",
+    "spotSize": "Spot size",
+    "fieldOfView": "FoV",
+    "linesPerFrame": "Resolution",
+    "dwell": "Dwell time",
+    "screenMagnification": "Magnification"
+  },
+  "displayMode": {
+    "River": "River",
+    "Tiled": "Square",
+    "Details": "Details"
+  },
+  "displaySize": {
+    "Small": "Small",
+    "Medium": "Medium",
+    "Large": "Large"
+  },
+  "export": {
+    "Export selection": "Export {{amount}}",
+    "Done": "Export finished",
+    "Running": "Exporting..",
+    "Failed": "Unable to export selection",
+    "PDF": "Export to PDF",
+    "PPT": "Export to Powerpoint",
+    "DOCX": "Export to Word",
+    "Share link": "Share link",
+    "Share link created": "Share link created",
+    "FOLDER": "Copy to Folder",
+    "Clipboard": "Copy to clipboard",
+    "Target folder": "Select folder"
+  },
+  "delete item": {
+    "single": {
+      "Title": "Delete from project",
+      "Message": "Are you sure you want to delete this? This will also remove the file from your disk"
+    },
+    "multiple": {
+      "Title": "Delete from project",
+      "Message": "Are you sure you want to delete {{amount}} items? This will also remove the files from your disk"
+    }
+  },
+  "amounts": {
+    "captures": "{{amount}} Captures",
+    "snapshots": "{{amount}} Snapshots",
+    "spectra": "{{amount}} Spectra",
+    "stubs": "{{amount}} Stubs"
+  }
+}
+

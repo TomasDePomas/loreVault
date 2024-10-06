@@ -1,0 +1,14 @@
+{
+  "sed": {
+    "Label": "SED"
+  },
+  "bsd": {
+    "Label": "BSD"
+  },
+  "topo": {
+    "Label": "Topo"
+  },
+  "acb": {
+    "Loading": "Auto contrast & brightness in progress"
+  }
+}

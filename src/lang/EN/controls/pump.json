@@ -1,0 +1,29 @@
+{
+  "states": {
+    "VAC_OK_AIR": {
+      "Full": "Vent"
+    },
+    "VAC_OK_HIGH": {
+      "Short": "High",
+      "Full": "High vacuum"
+    },
+    "VAC_OK_LOW": {
+      "Short": "Low",
+      "Full": "Low vacuum"
+    }
+  },
+  "switch level": {
+    "Title": "Vacuum",
+    "VAC_LEVEL_HIGH": "Are you sure you want to switch to High vacuum?",
+    "VAC_LEVEL_LOW": "Are you sure you want to switch to Low vacuum?",
+    "VAC_OK_AIR": "Are you sure you want to start the venting sequence?"
+  },
+  "tilt blocks venting": {
+    "Message": "Stage is tilted out of bounds",
+    "Caption": "Return to level position before venting"
+  },
+  "Pumping in progress": "Preparing vacuum...",
+  "Venting in progress": "Venting chamber...",
+  "Cancel pumping": "Are you sure you want to cancel pumping and start the venting sequence?",
+  "Cancel pumping title": "Cancel pumping"
+}

@@ -1,0 +1,29 @@
+{
+  "capture": {
+    "Failed": "Capture failed",
+    "Loading": "Capturing..",
+    "Remaining": "{{seconds}} seconds remaining",
+    "Finishing": "Finishing capture",
+    "Done": "Image captured"
+  },
+  "dwell": {
+    "Label": "Dwell",
+    "Unit": "ns"
+  },
+  "frame time": {
+    "Label": "Frame time"
+  },
+  "lines per frame": {
+    "Label": "Lines / frame"
+  },
+  "integration": {
+    "Label": "Integration"
+  },
+  "presets": {
+    "High": "4K",
+    "Medium": "Medium",
+    "Low": "Fast",
+    "Custom": "Custom"
+  },
+  "Magnification recommendation": "Magnification is higher than the recommended max of {{magnification}} x for capture resolution"
+}

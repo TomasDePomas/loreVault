@@ -1,0 +1,26 @@
+{
+  "Settings": "Settings",
+  "Mapping": "Mapping in progress",
+  "mode": {
+    "Label": "Mode"
+  },
+  "averaging": {
+    "Label": "Averaging"
+  },
+  "dwell": {
+    "Label": "Dwell",
+    "Unit": "ns"
+  },
+  "frame time": {
+    "Label": "Frame time",
+    "Unit": "seconds"
+  },
+  "lines per frame": {
+    "Label": "Lines / frame"
+  },
+  "modes": {
+    "FULL_FRAME": "Full frame",
+    "SMALL_FRAME": "Small frame",
+    "SPOT_SCAN": "Spot"
+  }
+}

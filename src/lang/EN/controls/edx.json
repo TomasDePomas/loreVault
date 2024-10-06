@@ -1,0 +1,75 @@
+{
+  "Start": "Start acquisition",
+  "Stop": "Stop acquisition",
+  "bar": {
+    "counts": "Counts {{counts}} ({{countsPerSecond}} per second)",
+    "liveTime": "Livetime {{seconds}}",
+    "realTime": "Realtime {{seconds}}"
+  },
+  "Autodetect": "Auto",
+  "AutoSave": "Automatic save",
+  "Include": "Include",
+  "Exclude": "Exclude",
+  "Clear selection": "Clear selection",
+  "Clear all": "Clear all",
+  "Running": "Acquiring eds spectrum",
+  "Save": "Save",
+  "Update": "Save changes",
+  "Save copy": "Save as copy",
+  "Save options": "Save options",
+  "unsaved changes": {
+    "Title multiple": "Some spectra have unsaved changes.",
+    "Title single": "{{spectrum}} has unsaved changes.",
+    "Message close": "Are you sure you want to close without saving?",
+    "Message switch": "Are you sure you want to open another project without saving?",
+    "Discard": "Discard changes",
+    "Save": "Save all"
+  },
+  "spectrum delete": {
+    "Title": "Delete spectra",
+    "Message": "Are you sure you want to delete these {{amount}} spectra?",
+    "Message_single": "Are you sure you want to delete this spectrum?"
+  },
+  "chart": {
+    "Logaritmic": "Log",
+    "tooltip": {
+      "X": "counts",
+      "Y": "keV"
+    }
+  },
+  "acquisitionMode": {
+    "CONTINUOUS": "Until stopped",
+    "COUNTED": "Until counts",
+    "TIMED": "Until time"
+  },
+  "stats": {
+    "COUNTED": {
+      "title": "Counted acquisition",
+      "suffix": "remaining"
+    },
+    "TIMED": {
+      "title": "Timed acquisition",
+      "suffix": "s remaining"
+    },
+    "Counts per second": "Counts per second",
+    "Total counts": "Total counts",
+    "Realtime": "Realtime",
+    "Deadtime": "Deadtime",
+    "Livetime": "Livetime"
+  },
+  "backgroundMode": {
+    "SHOW": "Show background",
+    "INDICATE": "Indicate background",
+    "SUBTRACT": "Subtract background"
+  },
+  "spectrum name": {
+    "Live": "Live spectrum",
+    "Continuous": "spectrum",
+    "Count": "{{counts}} count spectrum",
+    "Time": "{{seconds}} second spectrum"
+  },
+  "quantification": {
+    "Empty": "No elements selected to quantify",
+    "Use logarithmic": "Logarithmic scale"
+  }
+}

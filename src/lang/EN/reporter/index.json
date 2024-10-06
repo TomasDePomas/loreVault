@@ -1,0 +1,15 @@
+{
+  "spectrum": {
+    "values": {
+      "counts": "{{counts}} counts",
+      "time": "{{seconds}} seconds",
+      "excluded": "Excluded elements",
+      "HT": "{{voltage}} kV",
+      "inputCounts": "Input counts",
+      "outputCounts": "Output counts",
+      "livetime": "Live time",
+      "deadtime": "Dead time",
+      "realtime": "Real time"
+    }
+  }
+}

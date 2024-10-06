@@ -1,0 +1,26 @@
+{
+  "Navigator": "Stub",
+  "Detector Settings": "Detector",
+  "Edx Result Selection": "Element map",
+  "Filament Settings": "Filament adjustment",
+  "Gun Settings": "Beam",
+  "Gun Tilt Settings": "Gun tilt",
+  "Image Adjustment": "Adjust",
+  "Scan Settings": "Scan",
+  "Stigmator Settings": "Stigmator",
+  "Pump Settings": "Vacuum",
+  "Photo Settings": "Capture",
+  "Capture Settings": "Capture Settings",
+  "Measurement tools": "Measure",
+  "Measurement Settings": "Measure Settings",
+  "Grid Settings": "Grid Settings",
+  "Project": "Project",
+  "Capture": "Capture details",
+  "Edx Settings": "Settings",
+  "Quantification": "Quantify",
+  "tabs": {
+    "settings": "Settings",
+    "elementSelection": "Elements",
+    "quantification": "Quantify"
+  }
+}

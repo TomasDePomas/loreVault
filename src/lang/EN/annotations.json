@@ -1,0 +1,14 @@
+{
+  "types": {
+    "Eraser": "Eraser",
+    "Erase all": "Erase all",
+    "PlainLine": "Line",
+    "PlainCircle": "Circle",
+    "Rectangle": "Rectangle",
+    "Arrow": "Arrow",
+    "MeasurementLine": "Line measurement",
+    "MeasurementCircle": "Circle measurement",
+    "MeasurementRectangle": "Rectangle measurement",
+    "Marker": "Marker"
+  }
+}

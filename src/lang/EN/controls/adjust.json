@@ -1,0 +1,18 @@
+{
+  "contrast": {
+    "Label": "Contrast"
+  },
+  "brightness": {
+    "Label": "Brightness"
+  },
+  "acb": {
+    "Label": "Auto"
+  },
+  "magnification": {
+    "Label": "Magnification",
+    "Max indicator": "Recommended max magnification {{magnification}} x"
+  },
+  "rotation": {
+    "Label": "Rotation"
+  }
+}

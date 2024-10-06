@@ -1,0 +1,25 @@
+{
+  "Conditioning": "Conditioning",
+  "status": {
+    "ready to start": {
+      "Title": "Condition the gun",
+      "Caption": "This will take about {{ totalMinutes }} minutes"
+    },
+    "busy": {
+      "Title": "Conditioning",
+      "Caption": "About {{ minutesRemaining }} minutes remaining"
+    },
+    "complete": {
+      "Title": "Complete",
+      "Caption": "Conditioning complete"
+    },
+    "failed": {
+      "Title": "Failed",
+      "Caption": "Unable to fully condition the gun"
+    }
+  },
+  "cancel": {
+    "Title": "Cancel conditioning",
+    "Message": "Are you sure you want to cancel conditioning the filament?"
+  }
+}

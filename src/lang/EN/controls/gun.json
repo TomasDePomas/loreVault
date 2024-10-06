@@ -1,0 +1,32 @@
+{
+  "ht": {
+    "Value": "{{voltage}} kV",
+    "Loading": "Ramping..",
+    "Label": "High voltage"
+  },
+  "filament": {
+    "Label": "Cathode",
+    "Loading": "Adjusting..",
+    "mode": {
+      "BRIGHT": "Bright",
+      "MEDIUM": "Medium",
+      "ECO": "Eco"
+    },
+    "Adjust": "Auto"
+  },
+  "auto tilt": {
+    "X": "X",
+    "Y": "Y",
+    "Auto": "Auto",
+    "Loading": "Configuring gun tilt.."
+  },
+  "spot size": {
+    "Label": "Spot"
+  },
+  "beam current": {
+    "Label": "Beam current",
+    "Value": "{{ current }} µA"
+  },
+  "Conditioning": "Gun conditioning in progress...",
+  "Calibrating": "Gun calibration in progress..."
+}
