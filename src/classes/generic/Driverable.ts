@@ -6,6 +6,33 @@ export default class Driverable<DriverClass extends IDriverClass> {
   private initializePromise: Promise<void> | undefined = undefined
   private resolveInitializePromise: (() => void) | undefined = undefined
 
+  constructor() {
+    return new Proxy(this, {
+      get(target, prop: string): any {
+        if (prop in target) {
+          // @ts-ignore
+          // eslint-disable-next-line prefer-rest-params
+          return Reflect.get(...arguments)
+        }
+
+        if (!target.driver) {
+          throw Error('Driver not initialized')
+        }
+        if (!(prop in target.driver)) {
+          throw Error(`Unknown [${prop}] called on driver`)
+        }
+        const driverProp = target.driver[prop as keyof DriverClass]
+
+        if (driverProp instanceof Function) {
+          return function (...args: any[]): any {
+            return driverProp.apply(target, args)
+          }
+        }
+        return driverProp
+      },
+    })
+  }
+
   public async initialize(driver: DriverClass): Promise<void> {
     if (this.driver) {
       return
@@ -23,7 +50,7 @@ export default class Driverable<DriverClass extends IDriverClass> {
     }
   }
 
-  public awaitInitialized(): Promise<void> {
+  awaitInitialized(): Promise<void> {
     if (!this.initializePromise) {
       this.initializePromise = new Promise((resolve) => {
         if (this.isInitialized) {

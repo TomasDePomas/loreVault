@@ -1,6 +1,6 @@
 import type { App } from 'vue'
 import i18next, { TOptions } from 'i18next'
-import Singleton from 'src/classes/Singleton'
+import Singleton from 'src/classes/generic/Singleton'
 import { computed, Ref, ref } from 'vue'
 import EN from './EN'
 

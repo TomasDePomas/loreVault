@@ -3,11 +3,15 @@ export interface IStorageDriver {
 
   has(key: string): Promise<boolean>
 
-  get(key: string, fallback: any): Promise<any>
+  get<TValue>(key: string): Promise<TValue | undefined>
 
-  pull(key: string, fallback: any): Promise<any>
+  get<TValue>(key: string, fallback: TValue): Promise<TValue>
 
-  set(key: string, value: any): Promise<void>
+  pull<TValue>(key: string): Promise<TValue | undefined>
+
+  pull<TValue>(key: string, fallback: TValue): Promise<TValue>
+
+  set<TValue>(key: string, value: TValue): Promise<void>
 
   forget(key: string): Promise<void>
 

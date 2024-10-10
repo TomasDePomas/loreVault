@@ -1,6 +1,6 @@
-import { IStorageDriver } from 'src/types/generic/IStorageDriver'
+import { IStorageDriver } from 'src/types/drivers/IStorageDriver'
 
-export class LocalStorage implements IStorageDriver {
+export class BrowserStorage implements IStorageDriver {
   async initialize(): Promise<void> {
     // No need to initialize
   }
@@ -11,6 +11,7 @@ export class LocalStorage implements IStorageDriver {
   }
 
   async get(key: string, fallback: any = undefined): Promise<any> {
+    console.log({ key })
     const value = window.localStorage.getItem(key)
     if (value === null) {
       if (fallback === undefined) {

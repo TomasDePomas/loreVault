@@ -29,3 +29,8 @@ createApp(App)
     },
   })
   .mount('#app')
+
+import Storage from 'src/classes/Storage.ts'
+import { BrowserStorage } from 'src/classes/drivers/browser/BrowserStorage.ts'
+
+Storage.initialize(new BrowserStorage())
