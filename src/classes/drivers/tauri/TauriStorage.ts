@@ -1,51 +1,30 @@
-import {
-  BaseDirectory,
-  exists,
-  readTextFile,
-  writeTextFile,
-} from '@tauri-apps/api/fs'
-import { get, has, set, unset } from 'lodash'
-import { IStorageDriver } from 'src/types/generic/IStorageDriver'
+import { IStorageDriver } from 'src/types/drivers/IStorageDriver'
+import { load, Store } from '@tauri-apps/plugin-store'
 
 const FILENAME = 'storage.json'
 
 export class TauriStorage implements IStorageDriver {
-  private content: Record<string, any> = {}
-  private isInitialized: boolean = false
+  private store: Store | null = null
 
   async initialize(): Promise<void> {
-    if (this.isInitialized) {
+    if (this.store) {
       return
     }
-    if (await exists(FILENAME, { dir: BaseDirectory.AppLocalData })) {
-      try {
-        const contents = await readTextFile(FILENAME, {
-          dir: BaseDirectory.AppLocalData,
-        })
-        const parsedContents = JSON.parse(contents) as Record<string, any>
-        if (!parsedContents || typeof parsedContents !== 'object') {
-          throw Error('Corrupted storage file')
-        }
-        this.content = parsedContents
-      } catch (error) {
-        if (error instanceof Error) {
-          console.error(`Unable to load config from storage: ${error.message}`)
-        } else {
-          console.error('Unable to load config from storage')
-        }
-        this.content = {}
-      } finally {
-        this.isInitialized = true
-      }
-    }
+    this.store = await load(FILENAME, { autoSave: true })
   }
 
   async has(key: string): Promise<boolean> {
-    return has(this.content, key)
+    if (!this.store) {
+      throw 'Storage driver is not initialized'
+    }
+    return this.store.has(key)
   }
 
   async get(key: string, fallback: any = undefined): Promise<any> {
-    const value = get(this.content, key)
+    if (!this.store) {
+      throw 'Storage driver is not initialized'
+    }
+    const value = await this.store.get<string>(key)
     if (value === undefined) {
       if (fallback === undefined) {
         throw Error(`Key [${key}] is not set`)
@@ -66,24 +45,23 @@ export class TauriStorage implements IStorageDriver {
   }
 
   async set(key: string, value: any): Promise<void> {
-    set(this.content, key, JSON.stringify(value))
-    return this.persist()
+    if (!this.store) {
+      throw 'Storage driver is not initialized'
+    }
+    await this.store.set(key, JSON.stringify(value))
   }
 
   async forget(key: string): Promise<void> {
-    unset(this.content, key)
-    return this.persist()
+    if (!this.store) {
+      throw 'Storage driver is not initialized'
+    }
+    await this.store.delete(key)
   }
 
   async flush(): Promise<void> {
-    this.content = {}
-    return this.persist()
-  }
-
-  async persist(): Promise<void> {
-    const contents = JSON.stringify(this.content)
-    await writeTextFile(FILENAME, contents, {
-      dir: BaseDirectory.AppLocalData,
-    })
+    if (!this.store) {
+      throw 'Storage driver is not initialized'
+    }
+    return this.store.clear()
   }
 }

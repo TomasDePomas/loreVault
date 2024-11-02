@@ -10,7 +10,10 @@ export default class DriverableSingleton<
   private resolveInitializePromise: (() => void) | undefined = undefined
 
   constructor(
-    classObject: { new (): DriverableSingleton<DriverClass>; [key: string]: any },
+    classObject: {
+      new (): DriverableSingleton<DriverClass>
+      [key: string]: any
+    },
     constructor?: (
       instance: DriverableSingleton<DriverClass>,
     ) => DriverableSingleton<DriverClass>,
