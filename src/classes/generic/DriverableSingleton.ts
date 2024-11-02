@@ -11,7 +11,7 @@ export default class DriverableSingleton<
 
   constructor(
     classObject: {
-      new (): DriverableSingleton<DriverClass>
+      new(): DriverableSingleton<DriverClass>
       [key: string]: any
     },
     constructor?: (
@@ -31,7 +31,7 @@ export default class DriverableSingleton<
           }
 
           if (!target.driver) {
-            throw Error('Driver not initialized')
+            throw Error(`${target.constructor.name} driver not initialized`)
           }
           if (!(prop in target.driver)) {
             throw Error(`Unknown [${prop}] called on driver`)
@@ -39,7 +39,7 @@ export default class DriverableSingleton<
           const driverProp = target.driver[prop as keyof DriverClass]
 
           if (driverProp instanceof Function) {
-            return function (...args: any[]): any {
+            return function(...args: any[]): any {
               return driverProp.apply(target, args)
             }
           }

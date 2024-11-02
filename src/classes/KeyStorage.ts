@@ -1,5 +1,6 @@
 import { IKeyStorageDriver } from 'src/types/drivers/IKeyStorageDriver'
 import DriverableSingleton from 'src/classes/generic/DriverableSingleton.ts'
+import { DrivenClass } from 'src/types/generic/IDriverClass'
 
 class KeyStorage extends DriverableSingleton<IKeyStorageDriver> {
   constructor() {
@@ -7,4 +8,4 @@ class KeyStorage extends DriverableSingleton<IKeyStorageDriver> {
   }
 }
 
-export default new KeyStorage()
+export default new KeyStorage() as DrivenClass<IKeyStorageDriver>
