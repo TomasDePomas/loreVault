@@ -1,6 +1,6 @@
-import { IStorageDriver } from 'src/types/drivers/IStorageDriver'
+import { IKeyStorageDriver } from 'src/types/drivers/IKeyStorageDriver'
 
-export class BrowserStorage implements IStorageDriver {
+export class BrowserKeyStorage implements IKeyStorageDriver {
   async initialize(): Promise<void> {
     // No need to initialize
   }

@@ -1,9 +1,9 @@
-import { IStorageDriver } from 'src/types/drivers/IStorageDriver'
+import { IKeyStorageDriver } from 'src/types/drivers/IKeyStorageDriver'
 import { load, Store } from '@tauri-apps/plugin-store'
 
 const FILENAME = 'storage.json'
 
-export class TauriStorage implements IStorageDriver {
+export class TauriKeyStorage implements IKeyStorageDriver {
   private store: Store | null = null
 
   async initialize(): Promise<void> {

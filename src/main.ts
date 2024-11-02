@@ -30,7 +30,7 @@ createApp(App)
   })
   .mount('#app')
 
-import Storage from 'src/classes/Storage.ts'
-import { BrowserStorage } from 'src/classes/drivers/browser/BrowserStorage.ts'
+import Storage from 'src/classes/KeyStorage.ts'
+import { BrowserKeyStorage } from 'src/classes/drivers/browser/BrowserKeyStorage.ts'
 
-Storage.initialize(new BrowserStorage())
+Storage.initialize(new BrowserKeyStorage())

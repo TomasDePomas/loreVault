@@ -1,4 +1,4 @@
-export interface IStorageDriver {
+export interface IKeyStorageDriver {
   initialize(): Promise<void>
 
   has(key: string): Promise<boolean>
