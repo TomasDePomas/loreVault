@@ -8,6 +8,13 @@
   "permissions": [
     "core:default",
     "shell:allow-open",
-    "sql:default"
+    "sql:default",
+    "fs:default",
+    "sql:default",
+    "sql:default",
+    "store:default",
+    "dialog:default",
+    "dialog:default",
+    "fs:default"
   ]
 }

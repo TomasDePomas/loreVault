@@ -1,7 +1,7 @@
 pub mod chest_file {
-    use tauri::{Manager, AppHandle};
-    use std::path::{Path, PathBuf};
-    use std::fs::{DirBuilder, remove_dir_all, rename as rename_dirent};
+    use tauri::{AppHandle, Manager};
+    use std::path::PathBuf;
+    use std::fs::{DirBuilder, remove_dir_all};
     use zip_extensions::*;
 
     pub async fn open(app: &AppHandle, path: String) -> Result<String, String> {
@@ -19,10 +19,7 @@ pub mod chest_file {
     }
 
     pub async fn save(app: &AppHandle, target_path: String) -> Result<String, String> {
-        if let Err(error) = assure_derivative_directory(app, &target_path) {
-            return Err(format!("Unable to create the derivative directory: {error}").into());
-        }
-        let mut cache_path = app.path_resolver().app_cache_dir().unwrap();
+        let mut cache_path = app.path().app_cache_dir().unwrap();
         cache_path.push("openedChest");
 
         if !cache_path.exists() {
@@ -38,7 +35,7 @@ pub mod chest_file {
     }
 
     pub async fn close(app: &AppHandle) -> Result<String, String> {
-        let mut cache_path = app.path_resolver().app_cache_dir().unwrap();
+        let mut cache_path = app.path().app_cache_dir().unwrap();
         cache_path.push("openedChest");
 
         if cache_path.exists() {
@@ -52,7 +49,7 @@ pub mod chest_file {
 
 
     fn prepare_cache_directory(app: &AppHandle) -> Result<PathBuf, Box<dyn std::error::Error>> {
-        let mut cache_path = app.path_resolver().app_cache_dir().unwrap();
+        let mut cache_path = app.path().app_cache_dir().unwrap();
         cache_path.push("openedChest");
 
         if cache_path.exists() {

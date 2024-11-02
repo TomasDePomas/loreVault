@@ -22,5 +22,10 @@ tauri = { version = "2.0.0", features = [] }
 tauri-plugin-shell = "2.0.0"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
-tauri-plugin-sql = "2"
+tauri-plugin-sql = { version = "2", features = ["sqlite"] }
+tauri-plugin-fs = "2"
+tauri-plugin-store = "2"
+tauri-plugin-dialog = "2"
+zip = "2.2.0"
+zip-extensions = "0.8.1"
 
