@@ -65,13 +65,13 @@ TBD
     - ○ names
     - ○ tags in different levels
     - ○ main content
-    - ○ rich text format
-    - ○ images in text?
+    - ○ rich text
+    - ○ ~~images in text?~~
   - ○ add images
   - ○ add map images
-  - ○ test opening closing on desktop
-  - ○ test opening closing on mobile
-  - ○ test opening closing in browser
+  - ○ test opening/closing chest on desktop
+  - ○ test opening/closing chest on mobile
+  - ○ test opening/closing chest in browser
 - ○ create database based on .chest file for extra speed
 - ○ add text editor
 - ○ add image management
