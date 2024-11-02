@@ -4,6 +4,7 @@ import { Quasar, Notify, Dialog, QuasarUIConfiguration } from 'quasar'
 import router from 'src/router'
 import App from 'src/App.vue'
 import Translator from 'src/lang'
+import { LoreVault } from 'src/classes/LoreVault'
 
 import '@quasar/extras/material-icons/material-icons.css'
 import 'quasar/src/css/index.sass'
@@ -28,9 +29,5 @@ createApp(App)
       Dialog,
     },
   })
+  .use(LoreVault)
   .mount('#app')
-
-import Storage from 'src/classes/KeyStorage.ts'
-import { BrowserKeyStorage } from 'src/classes/drivers/browser/BrowserKeyStorage.ts'
-
-Storage.initialize(new BrowserKeyStorage())
