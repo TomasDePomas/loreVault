@@ -11,7 +11,7 @@ export default class DriverableSingleton<
 
   constructor(
     classObject: {
-      new(): DriverableSingleton<DriverClass>
+      new (): DriverableSingleton<DriverClass>
       [key: string]: any
     },
     constructor?: (
@@ -29,7 +29,6 @@ export default class DriverableSingleton<
             // eslint-disable-next-line prefer-rest-params
             return Reflect.get(...arguments)
           }
-
           if (!target.driver) {
             throw Error(`${target.constructor.name} driver not initialized`)
           }
@@ -39,7 +38,7 @@ export default class DriverableSingleton<
           const driverProp = target.driver[prop as keyof DriverClass]
 
           if (driverProp instanceof Function) {
-            return function(...args: any[]): any {
+            return function (...args: any[]): any {
               return driverProp.apply(target, args)
             }
           }

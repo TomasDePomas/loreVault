@@ -1,10 +1,6 @@
 import { IKeyStorageDriver } from 'src/types/drivers/IKeyStorageDriver'
 
 export class BrowserKeyStorage implements IKeyStorageDriver {
-  async initialize(): Promise<void> {
-    // No need to initialize
-  }
-
   async has(key: string): Promise<boolean> {
     const value = window.localStorage.getItem(key)
     return value !== null

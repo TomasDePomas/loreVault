@@ -60,16 +60,16 @@ TBD
   - ✓ Linux
   - ✓ Windows
   - ○ MacOS
-- ○ Create .chest file format
-  - ○ add texts
+- ✓ Create .chest file format
+  - ✓ add texts
     - ○ names
     - ○ tags in different levels
     - ○ main content
     - ○ rich text
-    - ○ ~~images in text?~~
+    - ○ images in text
   - ○ add images
   - ○ add map images
-  - ○ test opening/closing chest on desktop
+  - ✓ test opening/closing chest on desktop
   - ○ test opening/closing chest on mobile
   - ○ test opening/closing chest in browser
 - ○ create database based on .chest file for extra speed

@@ -1,6 +1,6 @@
-export interface IKeyStorageDriver {
-  initialize(): Promise<void>
+import { IDriverClass } from 'src/types/generic/IDriverClass'
 
+export interface IKeyStorageDriver extends IDriverClass {
   has(key: string): Promise<boolean>
 
   get<TValue>(key: string): Promise<TValue | undefined>

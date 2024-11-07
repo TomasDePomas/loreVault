@@ -11,4 +11,5 @@ export type IDriverable<DriverClass extends IDriverClass> = Omit<
   initialize(driver: DriverClass): Promise<void>
   awaitInitialized(): Promise<void>
 }
-export type DrivenClass<DriverClass extends IDriverClass> = (DriverableSingleton<DriverClass> & DriverClass)
+export type DrivenClass<DriverClass extends IDriverClass> =
+  DriverableSingleton<DriverClass> & DriverClass
