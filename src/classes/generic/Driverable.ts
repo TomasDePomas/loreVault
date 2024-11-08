@@ -16,10 +16,10 @@ export default class Driverable<DriverClass extends IDriverClass> {
         }
 
         if (!target.driver) {
-          throw Error('Driver not initialized')
+          throw 'Driver not initialized'
         }
         if (!(prop in target.driver)) {
-          throw Error(`Unknown [${prop}] called on driver`)
+          throw `Unknown [${prop}] called on driver`
         }
         const driverProp = target.driver[prop as keyof DriverClass]
 

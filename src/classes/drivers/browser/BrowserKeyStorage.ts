@@ -11,14 +11,14 @@ export class BrowserKeyStorage implements IKeyStorageDriver {
     const value = window.localStorage.getItem(key)
     if (value === null) {
       if (fallback === undefined) {
-        throw Error(`Key [${key}] is not set`)
+        throw `Key [${key}] is not set`
       }
       return fallback
     }
     try {
       return JSON.parse(value)
     } catch {
-      throw Error(`Unable to read [${key}] from storage`)
+      throw `Unable to read [${key}] from storage`
     }
   }
 

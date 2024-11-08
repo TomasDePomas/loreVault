@@ -7,6 +7,7 @@ import EN from './EN'
 export enum UILanguage {
   EN = 'EN',
 }
+
 class Translator extends Singleton<Translator> {
   private _initialized: boolean = false
   private _language: Ref<UILanguage> = ref(UILanguage.EN)
@@ -14,8 +15,9 @@ class Translator extends Singleton<Translator> {
   private resolveInitializePromise: (() => void) | undefined = undefined
 
   constructor() {
-    super(Translator, (instance: Translator) => {
+    super(Translator, (instance: Translator): Translator => {
       instance.initialize()
+      return instance
     })
   }
 
@@ -63,7 +65,7 @@ class Translator extends Singleton<Translator> {
 
   t(key: string, options: TOptions = {}): string {
     if (!this._initialized) {
-      throw Error('Translator is not yet initialized. Unable to translate')
+      throw 'Translator is not yet initialized. Unable to translate'
     }
     return computed(() => {
       return i18next.t(key, { ...options, lng: this.language })
@@ -76,7 +78,7 @@ class Translator extends Singleton<Translator> {
 
   async setLanguage(tag: UILanguage) {
     if (!this._initialized) {
-      throw Error('Translator is not yet initialized. Unable to set language')
+      throw 'Translator is not yet initialized. Unable to set language'
     }
     await i18next.changeLanguage(tag)
     this._language.value = tag
@@ -85,9 +87,7 @@ class Translator extends Singleton<Translator> {
 
   async reloadLanguage() {
     if (!this._initialized) {
-      throw Error(
-        'Translator is not yet initialized. Unable to reload language',
-      )
+      throw 'Translator is not yet initialized. Unable to reload language'
     }
     const lng = await this._loadLanguage(UILanguage.EN)
     this._language.value = lng
@@ -95,10 +95,6 @@ class Translator extends Singleton<Translator> {
   }
 
   async _loadLanguage(fallbackLanguage: UILanguage): Promise<UILanguage> {
-    // if (await PreferencesManager.isSet('ui-language')) {
-    //   return await PreferencesManager.get('ui-language').value
-    // }
-
     if (navigator.languages !== undefined) {
       const foundLanguage = navigator.languages.find((language) => {
         const simpleLanguage = this._simplifyLanguageTag(language)
@@ -124,4 +120,5 @@ class Translator extends Singleton<Translator> {
     return language.toUpperCase()
   }
 }
+
 export default new Translator()

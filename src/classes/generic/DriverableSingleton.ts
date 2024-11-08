@@ -30,10 +30,10 @@ export default class DriverableSingleton<
             return Reflect.get(...arguments)
           }
           if (!target.driver) {
-            throw Error(`${target.constructor.name} driver not initialized`)
+            throw `${target.constructor.name} driver not initialized`
           }
           if (!(prop in target.driver)) {
-            throw Error(`Unknown [${prop}] called on driver`)
+            throw `Unknown [${prop}] called on driver`
           }
           const driverProp = target.driver[prop as keyof DriverClass]
 

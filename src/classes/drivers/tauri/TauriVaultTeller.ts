@@ -27,6 +27,10 @@ export class TauriVaultTeller implements IVaultTellerDriver {
     return true
   }
 
+  async fillLedger(): Promise<boolean> {
+    return true
+  }
+
   async storeChest(path?: string | null): Promise<boolean> {
     path =
       path ||

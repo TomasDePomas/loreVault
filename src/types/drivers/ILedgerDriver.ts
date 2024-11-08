@@ -1,7 +1,14 @@
 import { IDriverClass } from 'src/types/generic/IDriverClass.ts'
+import { LoreRecord } from 'src/types/LoreRecord.ts'
 
 export interface ILedgerDriver extends IDriverClass {
-  clear(): Promise<void>
+  addRecord(record: LoreRecord): Promise<boolean>
 
-  readChestIntoRecord(): Promise<void>
+  addRecords(records: Array<LoreRecord>): Promise<boolean>
+
+  clear(): Promise<boolean>
 }
+
+// TODO: Write into record
+// TODO: Update record
+// TODO: Update record in chest

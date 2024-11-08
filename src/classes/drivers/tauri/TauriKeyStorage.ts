@@ -27,14 +27,14 @@ export class TauriKeyStorage implements IKeyStorageDriver {
     const value = await this.store.get<string>(key)
     if (value === undefined) {
       if (fallback === undefined) {
-        throw Error(`Key [${key}] is not set`)
+        throw `Key [${key}] is not set`
       }
       return fallback
     }
     try {
       return JSON.parse(value)
     } catch {
-      throw Error(`Unable to read [${key}] from storage`)
+      throw `Unable to read [${key}] from storage`
     }
   }
 

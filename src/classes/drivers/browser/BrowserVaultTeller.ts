@@ -31,6 +31,10 @@ export class BrowserVaultTeller implements IVaultTellerDriver {
     return true
   }
 
+  async fillLedger(): Promise<boolean> {
+    return true
+  }
+
   async storeChest(): Promise<boolean> {
     if (!this.chest) {
       console.error('No chest open to store')

@@ -27,6 +27,7 @@
     "@tauri-apps/plugin-sql": "~2",
     "@tauri-apps/plugin-store": "~2",
     "date-fns": "^2.29.3",
+    "dexie": "^4.0.9",
     "i18next": "^23.11.1",
     "jszip": "^3.10.1",
     "pinia": "^2.2.4",

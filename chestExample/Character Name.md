@@ -19,3 +19,4 @@ Paragraphs written about the character. Loads of very interesting information
 ![Image of the character](/assets/example image.jpg "Character image")
 
 Further information detailing stuff
+
