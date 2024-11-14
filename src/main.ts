@@ -4,7 +4,7 @@ import { Quasar, Notify, Dialog, QuasarUIConfiguration } from 'quasar'
 import router from 'src/router'
 import App from 'src/App.vue'
 import Translator from 'src/lang'
-import { LoreVault } from 'src/classes/LoreVault'
+import { LoreVault } from 'src/plugins/LoreVault'
 
 import '@quasar/extras/material-icons/material-icons.css'
 import 'quasar/src/css/index.sass'

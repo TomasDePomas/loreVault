@@ -6,14 +6,6 @@ class VaultTeller extends DriverableSingleton<IVaultTellerDriver> {
   constructor() {
     super(VaultTeller)
   }
-
-  async fillLedger(): Promise<boolean> {
-    if (!this.driver) {
-      throw 'VaultTeller driver not initialized'
-    }
-
-    return this.driver.fillLedger()
-  }
 }
 
 export default new VaultTeller() as DrivenClass<IVaultTellerDriver>

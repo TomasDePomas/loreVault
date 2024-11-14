@@ -7,7 +7,6 @@ export class BrowserKeyStorage implements IKeyStorageDriver {
   }
 
   async get(key: string, fallback: any = undefined): Promise<any> {
-    console.log({ key })
     const value = window.localStorage.getItem(key)
     if (value === null) {
       if (fallback === undefined) {

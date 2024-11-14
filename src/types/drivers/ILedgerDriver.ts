@@ -2,11 +2,11 @@ import { IDriverClass } from 'src/types/generic/IDriverClass.ts'
 import { LoreRecord } from 'src/types/LoreRecord.ts'
 
 export interface ILedgerDriver extends IDriverClass {
-  addRecord(record: LoreRecord): Promise<boolean>
+  addRecord(record: LoreRecord): Promise<void>
 
-  addRecords(records: Array<LoreRecord>): Promise<boolean>
+  addRecords(records: Array<LoreRecord>): Promise<void>
 
-  clear(): Promise<boolean>
+  clear(): Promise<void>
 }
 
 // TODO: Write into record

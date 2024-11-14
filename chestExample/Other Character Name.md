@@ -9,7 +9,7 @@
     * Chaotic
     * Evil
 * family
-  * [Character Name](Character Name.md) (twin brother)
+  * [Character Name (twin brother)](Character Name.md)
 
 ## Description
 

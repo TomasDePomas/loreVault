@@ -1,8 +1,10 @@
 import { IVaultTellerDriver } from 'src/types/drivers/IVaultTellerDriver'
 import { useDialog } from 'src/mixins/useDialog'
 import * as JSZip from 'jszip'
+import { convertMdToLoreRecord } from 'src/utils/convertMdToLoreRecord'
+import Ledger from 'src/classes/Ledger'
 
-const { showDialog } = useDialog()
+const { showDialog, showToast } = useDialog()
 
 export class BrowserVaultTeller implements IVaultTellerDriver {
   private chest: JSZip | null = null
@@ -27,11 +29,28 @@ export class BrowserVaultTeller implements IVaultTellerDriver {
     }
     this.chestName = file.name.replace(/\.chest$/, '')
     this.chest = await JSZip.loadAsync(file)
-
     return true
   }
 
   async fillLedger(): Promise<boolean> {
+    if (!this.chest) {
+      console.error('No chest open to read into ledger')
+      return false
+    }
+    const markdownFiles = this.chest.file(/\.md$/)
+    for (const file of markdownFiles) {
+      if (file.dir) {
+        continue
+      }
+      try {
+        const content: string = await file.async('text')
+        const record = convertMdToLoreRecord(content)
+        await Ledger.addRecord(record)
+      } catch (e) {
+        console.error(e)
+        await showToast({ message: 'Unable to read record' })
+      }
+    }
     return true
   }
 

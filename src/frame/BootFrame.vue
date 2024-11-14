@@ -12,14 +12,18 @@
     <li>
       <button @click="closeChest">{{ 'closeChest' }}</button>
     </li>
+    <li>
+      <button @click="clearLedger">{{ 'clearLedger' }}</button>
+    </li>
   </ul>
 </template>
 
 <script setup lang="ts">
 import VaultTeller from 'src/classes/VaultTeller'
+import Ledger from 'src/classes/Ledger'
 
 const openChest = async (): Promise<void> => {
-  console.log(await VaultTeller.openChest())
+  await VaultTeller.openChest()
 }
 const fillLedger = async (): Promise<void> => {
   await VaultTeller.fillLedger()
@@ -29,6 +33,10 @@ const storeChest = async (): Promise<void> => {
 }
 const closeChest = async (): Promise<void> => {
   await VaultTeller.closeChest()
+}
+
+const clearLedger = async (): Promise<void> => {
+  await Ledger.clear()
 }
 
 // DONE: Call teller to open chest
