@@ -6,9 +6,7 @@ export interface ILedgerDriver extends IDriverClass {
 
   addRecords(records: Array<LoreRecord>): Promise<void>
 
+  findRecords(term: string): Promise<LoreRecord[]>
+
   clear(): Promise<void>
 }
-
-// TODO: Write into record
-// TODO: Update record
-// TODO: Update record in chest

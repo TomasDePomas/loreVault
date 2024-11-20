@@ -55,7 +55,7 @@ export default class DriverableSingleton<
 
     this.driver = driver
     if (typeof this.driver.initialize === 'function') {
-      await (this.driver.initialize.bind(this)())
+      await this.driver.initialize.bind(this)()
     }
 
     this.isInitialized = true
