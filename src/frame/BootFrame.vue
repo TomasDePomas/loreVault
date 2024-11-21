@@ -36,13 +36,40 @@
         @update:model-value="searchLedger"
       />
       <q-list v-if="searchTerm">
-        <q-item v-if="foundItems.length === 0">
+        <q-item v-if="foundRecords.length === 0">
           {{ 'No items found' }}
         </q-item>
-        <q-item v-for="item in foundItems" :key="item.identifier">
-          {{ item.identifier }}
+        <q-item
+          v-for="record in foundRecords"
+          :key="record.identifier"
+          clickable
+          @click="openRecord(record)"
+        >
+          {{ record.identifier }}
         </q-item>
       </q-list>
+
+      <q-card v-if="openedRecord">
+        <q-card-section>
+          <div class="text-h6">
+            <h1>{{ openedRecord.identifier }}</h1>
+          </div>
+          <div
+            v-for="category in Object.keys(openedRecord.categories)"
+            :key="category"
+          >
+            <q-chip color="accent">{{ category }}</q-chip>
+            <q-chip
+              v-for="({ value }, index) in openedRecord.categories[category]"
+              :key="index"
+              >{{ value }}</q-chip
+            >
+          </div>
+        </q-card-section>
+        <q-card-section>
+          <div v-html="openedRecord.content" />
+        </q-card-section>
+      </q-card>
     </q-page-container>
   </q-layout>
 </template>
@@ -52,10 +79,13 @@ import { ref } from 'vue'
 import VaultTeller from 'src/classes/VaultTeller'
 import Ledger from 'src/classes/Ledger'
 import { LoreRecord } from 'src/types/LoreRecord'
+import { useDialog } from 'src/mixins/useDialog'
+const { showToast } = useDialog()
 
 const leftDrawerOpen = ref<boolean>(false)
 const searchTerm = ref<string>('')
-const foundItems = ref<LoreRecord[]>([])
+const openedRecord = ref<(LoreRecord & { content: string }) | null>(null)
+const foundRecords = ref<LoreRecord[]>([])
 
 const openChest = async (): Promise<void> => {
   await VaultTeller.openChest()
@@ -63,13 +93,28 @@ const openChest = async (): Promise<void> => {
 const fillLedger = async (): Promise<void> => {
   await VaultTeller.fillLedger()
 }
+
+const searchLedger = async (searchTerm: string): Promise<void> => {
+  foundRecords.value = await Ledger.findRecords(searchTerm)
+}
+const openRecord = async (record: LoreRecord): Promise<void> => {
+  try {
+    const content = await VaultTeller.getRecordContents(record.identifier)
+    openedRecord.value = {
+      ...record,
+      content,
+    }
+  } catch (e) {
+    console.error(e)
+    await showToast({ message: 'Unable to read record' })
+  }
+}
 const storeChest = async (): Promise<void> => {
   await VaultTeller.storeChest()
 }
 const closeChest = async (): Promise<void> => {
   await VaultTeller.closeChest()
 }
-
 const clearLedger = async (): Promise<void> => {
   await Ledger.clear()
 }
@@ -77,13 +122,11 @@ const toggleLeftDrawer = () => {
   leftDrawerOpen.value = !leftDrawerOpen.value
 }
 
-const searchLedger = async (searchTerm: string): Promise<void> => {
-  foundItems.value = await Ledger.findRecords(searchTerm)
-}
 // DONE: Call teller to open chest
 // DONE: Call ledger to readChestIntoRecord
 // DONE: Rudimentary calls to ledger to find items
-// TODO: Rudimentary call to open
+// DONE: Rudimentary call to open
+// DONE: Replace images for base64
 // TODO: Rudimentary call to update items
 // TODO: Rudimentary call to create items and add to ledger
 // DONE: Call teller to store chest

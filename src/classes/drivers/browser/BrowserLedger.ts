@@ -42,7 +42,6 @@ export class BrowserLedger implements ILedgerDriver {
     })
     this.db.categories.bulkPut(categories)
     this.db.recordCategories.bulkPut(recordCategories)
-    console.log(record)
   }
 
   async addRecords(records: Array<LoreRecord>): Promise<void> {
@@ -61,8 +60,6 @@ export class BrowserLedger implements ILedgerDriver {
       .filter((record) => pattern.test(record.identifier))
       .limit(15)
       .toArray()
-
-    console.log({ identifiers })
 
     const recordCategories = await this.db.recordCategories
       .where('recordIdentifier')

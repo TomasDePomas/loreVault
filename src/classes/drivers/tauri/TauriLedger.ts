@@ -17,5 +17,4 @@ export class TauriLedger implements ILedgerDriver {
   findRecords(term: string): Promise<LoreRecord[]> {
     return Promise.resolve([])
   }
-
 }

@@ -17,6 +17,6 @@ Paragraphs written about the character. Loads of very interesting information.
 
 ## Some other section
 
-![Image of the character](/assets/example image 2.jpg "Other Character image")
+![Image of the character](assets/example image 2.jpg "Other Character image")
 
 Further information detailing stuff
