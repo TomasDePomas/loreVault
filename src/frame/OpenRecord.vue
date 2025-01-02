@@ -62,8 +62,12 @@
       <q-editor
         ref="editorRef"
         v-model="editableContent"
-        class="record-content"
+        class="record-content record-content--editor"
         :definitions="{
+          skipMenu: {
+            label: 'Skip menu',
+            handler: skipMenu,
+          },
           uploadImage: {
             tip: 'Add image',
             icon: 'image',
@@ -86,6 +90,7 @@
         }"
         min-height="5rem"
         :toolbar="[
+          [ 'skipMenu' ],
           [
             {
               label: 'Formatting',
@@ -244,6 +249,12 @@ const saveEdit = (): void => {
   editableIdentifier.value = undefined
   editableCategories.value = null
 }
+const skipMenu = (): void => {
+  if(!editorRef.value){
+    return
+  }
+  editorRef.value.focus()
+}
 const blockPaste = (event: any): void => {
   if (!editorRef.value || event.target.nodeName === 'INPUT') {
     return
@@ -280,6 +291,19 @@ watch(
   }
   img {
     display: block;
+  }
+
+  &--editor{
+    .q-editor{
+      &__toolbar-group:first-child{
+        position:absolute;
+        left:-10000px;
+        top:auto;
+        width:1px;
+        height:1px;
+        overflow:hidden;
+      }
+    }
   }
 }
 </style>
