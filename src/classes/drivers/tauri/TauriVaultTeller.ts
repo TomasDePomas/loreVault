@@ -1,6 +1,7 @@
 import { IVaultTellerDriver } from 'src/types/drivers/IVaultTellerDriver'
 import { open, save } from '@tauri-apps/plugin-dialog'
 import { invoke } from '@tauri-apps/api/core'
+import { LoreRecord } from 'src/types/LoreRecord'
 
 export class TauriVaultTeller implements IVaultTellerDriver {
   async openChest(): Promise<boolean> {
@@ -62,5 +63,25 @@ export class TauriVaultTeller implements IVaultTellerDriver {
       return false
     }
     return true
+  }
+
+  addRecord(_record: LoreRecord, _content: string): Promise<boolean> {
+    return Promise.resolve(false)
+  }
+
+  getRecordContents(_identifier: LoreRecord['identifier']): Promise<string> {
+    return Promise.resolve('')
+  }
+
+  replaceImage(_imageUrl: string): Promise<string> {
+    return Promise.resolve('')
+  }
+
+  updateRecord(
+    _identifier: LoreRecord['identifier'],
+    _record: LoreRecord,
+    _content: string,
+  ): Promise<boolean> {
+    return Promise.resolve(false)
   }
 }

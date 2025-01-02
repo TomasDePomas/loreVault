@@ -8,11 +8,11 @@
     </q-header>
     <q-drawer v-model="leftDrawerOpen" bordered show-if-above side="left">
       <q-list>
+        <q-item clickable @click="newChest">
+          <q-item-section>{{ 'newChest' }}</q-item-section>
+        </q-item>
         <q-item clickable @click="openChest">
           <q-item-section>{{ 'openChest' }}</q-item-section>
-        </q-item>
-        <q-item clickable @click="fillLedger">
-          <q-item-section>{{ 'fillLedger' }}</q-item-section>
         </q-item>
         <q-item clickable @click="storeChest">
           <q-item-section>{{ 'storeChest' }}</q-item-section>
@@ -20,56 +20,38 @@
         <q-item clickable @click="closeChest">
           <q-item-section>{{ 'closeChest' }}</q-item-section>
         </q-item>
-        <q-item clickable @click="clearLedger">
-          <q-item-section>{{ 'clearLedger' }}</q-item-section>
-        </q-item>
       </q-list>
     </q-drawer>
     <q-page-container>
-      <q-input
-        v-model="searchTerm"
-        class="q-ma-md"
-        clearable
-        label="Search item"
-        outlined
-        rounded
-        @update:model-value="searchLedger"
-      />
-      <q-list v-if="searchTerm">
-        <q-item v-if="foundRecords.length === 0">
-          {{ 'No items found' }}
-        </q-item>
-        <q-item
-          v-for="record in foundRecords"
-          :key="record.identifier"
-          clickable
-          @click="openRecord(record)"
-        >
-          {{ record.identifier }}
-        </q-item>
-      </q-list>
-
-      <q-card v-if="openedRecord">
-        <q-card-section>
-          <div class="text-h6">
-            <h1>{{ openedRecord.identifier }}</h1>
-          </div>
-          <div
-            v-for="category in Object.keys(openedRecord.categories)"
-            :key="category"
+      <q-page>
+        <q-input
+          v-model="searchTerm"
+          class="q-ma-md"
+          clearable
+          label="Search item"
+          outlined
+          rounded
+          @update:model-value="searchLedger"
+        />
+        <q-list v-if="searchTerm">
+          <q-item v-if="foundRecords.length === 0">
+            {{ 'No items found' }}
+          </q-item>
+          <q-item
+            v-for="record in foundRecords"
+            :key="record.identifier"
+            clickable
+            @click="openRecord(record)"
           >
-            <q-chip color="accent">{{ category }}</q-chip>
-            <q-chip
-              v-for="({ value }, index) in openedRecord.categories[category]"
-              :key="index"
-              >{{ value }}</q-chip
-            >
-          </div>
-        </q-card-section>
-        <q-card-section>
-          <div v-html="openedRecord.content" />
-        </q-card-section>
-      </q-card>
+            {{ record.identifier }}
+          </q-item>
+        </q-list>
+        <OpenRecord v-if="openedRecord" v-model:record="openedRecord" />
+        <q-page-sticky v-else :offset="[18, 18]" position="bottom-right">
+          <q-btn color="accent" fab icon="add" @click="startNewRecord" />
+        </q-page-sticky>
+        <q-inner-loading :showing="!chestOpened" />
+      </q-page>
     </q-page-container>
   </q-layout>
 </template>
@@ -80,24 +62,39 @@ import VaultTeller from 'src/classes/VaultTeller'
 import Ledger from 'src/classes/Ledger'
 import { LoreRecord } from 'src/types/LoreRecord'
 import { useDialog } from 'src/mixins/useDialog'
-const { showToast } = useDialog()
+import OpenRecord from 'src/frame/OpenRecord.vue'
+const { showToast, showPrompt } = useDialog()
 
 const leftDrawerOpen = ref<boolean>(false)
+const chestOpened = ref<boolean>(false)
 const searchTerm = ref<string>('')
 const openedRecord = ref<(LoreRecord & { content: string }) | null>(null)
 const foundRecords = ref<LoreRecord[]>([])
+const newChest = async (): Promise<void> => {
+  const name = await showPrompt('Name your new chest', 'New chest')
+  if (!name) {
+    return
+  }
+  await Ledger.clear()
+  await VaultTeller.newChest(name)
+  await VaultTeller.fillLedger()
+  leftDrawerOpen.value = false
+  chestOpened.value = true
+}
 
 const openChest = async (): Promise<void> => {
+  await Ledger.clear()
   await VaultTeller.openChest()
-}
-const fillLedger = async (): Promise<void> => {
   await VaultTeller.fillLedger()
+  leftDrawerOpen.value = false
+  chestOpened.value = true
 }
 
 const searchLedger = async (searchTerm: string): Promise<void> => {
   foundRecords.value = await Ledger.findRecords(searchTerm)
 }
 const openRecord = async (record: LoreRecord): Promise<void> => {
+  searchTerm.value = ''
   try {
     const content = await VaultTeller.getRecordContents(record.identifier)
     openedRecord.value = {
@@ -114,25 +111,20 @@ const storeChest = async (): Promise<void> => {
 }
 const closeChest = async (): Promise<void> => {
   await VaultTeller.closeChest()
-}
-const clearLedger = async (): Promise<void> => {
   await Ledger.clear()
+  chestOpened.value = false
 }
 const toggleLeftDrawer = () => {
   leftDrawerOpen.value = !leftDrawerOpen.value
 }
-
-// DONE: Call teller to open chest
-// DONE: Call ledger to readChestIntoRecord
-// DONE: Rudimentary calls to ledger to find items
-// DONE: Rudimentary call to open
-// DONE: Replace images for base64
-// TODO: Rudimentary call to update items
-// TODO: Rudimentary call to create items and add to ledger
-// DONE: Call teller to store chest
-// DONE: Make open chest call a call to tauri to open a zip to folder
-// DONE: Call teller to close chest
-// TODO: Tauri versies van drivers
-// TODO: Test zip opening on android
+const startNewRecord = (): void => {
+  searchTerm.value = ''
+  openedRecord.value = {
+    identifier: '',
+    categories: {},
+    content: '',
+  }
+}
 </script>
-<style scoped lang="scss"></style>
+
+<style lang="scss"></style>

@@ -29,6 +29,16 @@ module.exports = {
       'error',
       'always-multiline',
     ],
+    'no-console': [
+      'warn', { allow: ['warn', 'error', 'debug'] }
+    ],
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+      }
+    ],
     'vue/no-bare-strings-in-template': [
       'error',
       {

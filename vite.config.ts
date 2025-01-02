@@ -1,4 +1,7 @@
+// @ts-ignore
+
 import { defineConfig } from 'vite'
+import vueDevTools from 'vite-plugin-vue-devtools'
 import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 import vue from '@vitejs/plugin-vue'
 import eslint from 'vite-plugin-eslint'
@@ -16,6 +19,7 @@ export default defineConfig(async () => ({
     quasar({
       sassVariables: 'src/css/quasar.variables.scss',
     }),
+    vueDevTools(),
     eslint(),
   ],
   resolve: {

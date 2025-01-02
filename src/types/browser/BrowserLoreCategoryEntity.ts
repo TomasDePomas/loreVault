@@ -1,1 +1,4 @@
-export type BrowserLoreCategoryEntity = { categoryName: string }
+export type BrowserLoreCategoryEntity = {
+  categoryName: string
+  values: string[]
+}

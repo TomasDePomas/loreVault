@@ -11,29 +11,36 @@ import { ILedgerDriver } from 'src/types/drivers/ILedgerDriver'
 import { BrowserLedger } from 'src/classes/drivers/browser/BrowserLedger'
 import { TauriLedger } from 'src/classes/drivers/tauri/TauriLedger'
 import Ledger from 'src/classes/Ledger'
+import Clerk from 'src/classes/Clerk'
+import { IClerkDriver } from 'src/types/drivers/IClerkDriver'
+import { TauriClerk } from 'src/classes/drivers/tauri/TauriClerk'
+import { BrowserClerk } from 'src/classes/drivers/browser/BrowserClerk'
 
 type LoreVaultDrivers = {
   keyStorage: new () => IKeyStorageDriver
   vaultTeller: new () => IVaultTellerDriver
   ledger: new () => ILedgerDriver
+  clerk: new () => IClerkDriver
 }
 export const LoreVault: Plugin = {
   install(_app: App, driverOverwrites: Partial<LoreVaultDrivers> = {}): void {
     let drivers: LoreVaultDrivers
     if (!window.tauriContainer) {
-      console.info('Initializing browser drivers..')
+      console.debug('Initializing browser drivers..')
       drivers = {
         keyStorage: BrowserKeyStorage,
         vaultTeller: BrowserVaultTeller,
         ledger: BrowserLedger,
+        clerk: BrowserClerk,
         ...driverOverwrites,
       }
     } else {
-      console.info('Initializing tauri drivers..')
+      console.debug('Initializing tauri drivers..')
       drivers = {
         keyStorage: TauriKeyStorage,
         vaultTeller: TauriVaultTeller,
         ledger: TauriLedger,
+        clerk: TauriClerk,
         ...driverOverwrites,
       }
     }
@@ -46,6 +53,9 @@ export const LoreVault: Plugin = {
     })
     Ledger.initialize(new drivers.ledger()).catch((e) => {
       console.error('Unable to initialize vault teller driver', e)
+    })
+    Clerk.initialize(new drivers.clerk()).catch((e) => {
+      console.error('Unable to initialize clerk driver', e)
     })
   },
 }

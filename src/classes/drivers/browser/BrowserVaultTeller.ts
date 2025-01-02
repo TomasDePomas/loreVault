@@ -1,39 +1,53 @@
 import { IVaultTellerDriver } from 'src/types/drivers/IVaultTellerDriver'
 import { useDialog } from 'src/mixins/useDialog'
-import * as JSZip from 'jszip'
+import JSZip from 'jszip'
 import {
   readLoreRecordContentFromMd,
   readLoreRecordMetaFromMd,
-} from 'src/utils/readLoreRecordMetaFromMd'
+} from 'src/utils/readLoreRecordFromMd'
 import Ledger from 'src/classes/Ledger'
 import { LoreRecord } from 'src/types/LoreRecord'
 import VaultTeller from 'src/classes/VaultTeller'
-const { showDialog, showToast } = useDialog()
+import { writeLoreRecordToMd } from 'src/utils/writeLoreRecordToMd'
+const { showToast } = useDialog()
 
 export class BrowserVaultTeller implements IVaultTellerDriver {
   private chest: JSZip | null = null
   private chestName: string = 'chest'
 
+  async newChest(name: string): Promise<void> {
+    this.chestName = name
+    this.chest = new JSZip()
+  }
   async openChest(): Promise<boolean> {
-    const files = await showDialog<FileList>({
-      title: 'Upload your Chest file',
-      prompt: {
-        type: 'file',
-        model: '',
-        accept: '.chest',
-        multiple: false,
-      },
+    return new Promise((resolve) => {
+      const input = document.createElement('input')
+      input.type = 'file'
+      input.accept = '.chest'
+      input.multiple = false
+
+      input.onchange = () => {
+        const files = input.files
+        if (!files) {
+          return resolve(false)
+        }
+        const file: File | null = files.item(0)
+        if (!file) {
+          return resolve(false)
+        }
+        this.chestName = file.name.replace(/\.chest$/, '')
+        JSZip.loadAsync(file)
+          .then((contents) => {
+            this.chest = contents
+            resolve(true)
+          })
+          .catch((e) => {
+            console.error('Unable to open chest', e)
+            resolve(false)
+          })
+      }
+      input.click()
     })
-    if (!files) {
-      return false
-    }
-    const file: File | null = files.item(0)
-    if (!file) {
-      return false
-    }
-    this.chestName = file.name.replace(/\.chest$/, '')
-    this.chest = await JSZip.loadAsync(file)
-    return true
   }
 
   async fillLedger(): Promise<boolean> {
@@ -49,7 +63,7 @@ export class BrowserVaultTeller implements IVaultTellerDriver {
       try {
         const content: string = await file.async('text')
         const record = readLoreRecordMetaFromMd(content)
-        await Ledger.addRecord(record)
+        await Ledger.upsertRecord(record)
       } catch (e) {
         console.error(e)
         await showToast({ message: 'Unable to read record' })
@@ -70,6 +84,43 @@ export class BrowserVaultTeller implements IVaultTellerDriver {
     }
     const content: string = await file.async('text')
     return readLoreRecordContentFromMd(content, VaultTeller.replaceImage)
+  }
+
+  async addRecord(record: LoreRecord, content: string): Promise<boolean> {
+    const chest = this.chest
+    if (!chest) {
+      throw 'No chest open to add record to'
+    }
+    const { mdContent, assets } = writeLoreRecordToMd(record, content)
+    await Promise.all(
+      assets.map(async ({ path, base64 }): Promise<void> => {
+        if (base64.startsWith('data:image/jpeg;base64,')) {
+          path += '.jpg'
+          base64 = base64.replace('data:image/jpeg;base64,', '')
+        } else if (base64.startsWith('data:image/png;base64,')) {
+          path += '.png'
+          base64 = base64.replace('data:image/png;base64,', '')
+        } else {
+          throw 'Unknown file type'
+        }
+        chest.file(`assets/${path}`, base64, { base64: true })
+      }),
+    )
+    chest.file(`${record.identifier}.md`, mdContent)
+    return true
+  }
+  async updateRecord(
+    existingIdentifier: LoreRecord['identifier'],
+    record: LoreRecord,
+    content: string,
+  ): Promise<boolean> {
+    if (!this.chest) {
+      throw 'No chest update record in'
+    }
+    if (existingIdentifier !== record.identifier) {
+      this.chest.remove(`${existingIdentifier}.md`)
+    }
+    return VaultTeller.addRecord(record, content)
   }
 
   async replaceImage(imageUrl: string): Promise<string> {

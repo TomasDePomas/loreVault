@@ -79,7 +79,6 @@ export const readLoreRecordContentFromMd = async (
         html = html.replaceAll(url, base64)
       }),
     )
-
     return html
   } catch (e) {
     throw `Unable to convert MD to LoreRecord: ${e}`

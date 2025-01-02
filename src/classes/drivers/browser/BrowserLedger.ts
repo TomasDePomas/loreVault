@@ -1,10 +1,12 @@
 import { ILedgerDriver } from 'src/types/drivers/ILedgerDriver'
 import { LoreRecord } from 'src/types/LoreRecord'
 import Dexie from 'dexie'
+import { uniq } from 'lodash'
 import { BrowserLoreCategoryEntity } from 'src/types/browser/BrowserLoreCategoryEntity'
 import { BrowserLoreRecordCategoryEntity } from 'src/types/browser/BrowserLoreRecordCategoryEntity'
 import { BrowserLoreVaultDB } from 'src/types/browser/BrowserLoreVaultDB'
 import { BrowserLoreRecordEntity } from 'src/types/browser/BrowserLoreRecordEntity'
+import { LoreRecordCategory } from 'src/types/LoreRecordCategory'
 
 export class BrowserLedger implements ILedgerDriver {
   private db: BrowserLoreVaultDB | null = null
@@ -18,7 +20,7 @@ export class BrowserLedger implements ILedgerDriver {
     })
   }
 
-  async addRecord(record: LoreRecord): Promise<void> {
+  async upsertRecord(record: LoreRecord): Promise<void> {
     if (!this.db) {
       throw 'BrowserLedger database not initialized'
     }
@@ -26,7 +28,10 @@ export class BrowserLedger implements ILedgerDriver {
     const recordCategories: BrowserLoreRecordCategoryEntity[] = []
 
     Object.keys(record.categories).forEach((categoryName) => {
-      categories.push({ categoryName })
+      categories.push({
+        categoryName,
+        values: record.categories[categoryName].map(({ value }) => value),
+      })
 
       record.categories[categoryName].forEach(({ value }) => {
         recordCategories.push({
@@ -36,19 +41,19 @@ export class BrowserLedger implements ILedgerDriver {
         })
       })
     })
-
+    for (const category of categories) {
+      const existingCategory = await this.db.categories.get(
+        category.categoryName,
+      )
+      if (existingCategory) {
+        category.values = uniq([...existingCategory.values, ...category.values])
+      }
+    }
+    this.db.categories.bulkPut(categories)
     this.db.records.put({
       identifier: record.identifier,
     })
-    this.db.categories.bulkPut(categories)
     this.db.recordCategories.bulkPut(recordCategories)
-  }
-
-  async addRecords(records: Array<LoreRecord>): Promise<void> {
-    if (!this.db) {
-      throw 'BrowserLedger database not initialized'
-    }
-    await Promise.all(records.map((record) => this.addRecord(record)))
   }
 
   async findRecords(term: string): Promise<LoreRecord[]> {
@@ -66,7 +71,7 @@ export class BrowserLedger implements ILedgerDriver {
       .anyOf(identifiers.map(({ identifier }) => identifier))
       .toArray()
 
-    const records: Record<LoreRecord['identifier'], LoreRecord> = []
+    const records: Record<LoreRecord['identifier'], LoreRecord> = {}
 
     for (const { recordIdentifier, categoryName, value } of recordCategories) {
       if (!records[recordIdentifier]) {
@@ -83,6 +88,22 @@ export class BrowserLedger implements ILedgerDriver {
 
     return Object.values(records)
   }
+
+  async getCategories(): Promise<
+    Record<string, LoreRecordCategory['value'][]>
+  > {
+    if (!this.db) {
+      throw 'BrowserLedger database not initialized'
+    }
+    const dbCategories = await this.db.categories.toArray()
+    const categoryValues: Record<string, LoreRecordCategory['value'][]> = {}
+
+    for (const { categoryName, values } of dbCategories) {
+      categoryValues[categoryName] = values
+    }
+    return categoryValues
+  }
+
   async clear(): Promise<void> {
     if (!this.db) {
       throw 'BrowserLedger database not initialized'

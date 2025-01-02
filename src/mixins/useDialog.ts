@@ -27,6 +27,20 @@ export const useDialog = () => {
         })
     })
   }
+  const showPrompt = async (
+    title: string = 'Prompt',
+    startValue: string = '',
+    minLength: number = 3,
+  ): Promise<string | null> => {
+    return showDialog<string>({
+      title,
+      prompt: {
+        model: startValue,
+        isValid: (val) => val.length >= minLength,
+        type: 'text',
+      },
+    })
+  }
 
   const showToast = (
     options: QNotifyCreateOptions = {},
@@ -41,6 +55,7 @@ export const useDialog = () => {
 
   return {
     showDialog,
+    showPrompt,
     showToast,
   }
 }
