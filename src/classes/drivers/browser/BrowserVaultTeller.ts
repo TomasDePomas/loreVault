@@ -107,6 +107,7 @@ export class BrowserVaultTeller implements IVaultTellerDriver {
       }),
     )
     chest.file(`${record.identifier}.md`, mdContent)
+    await Ledger.upsertRecord(record)
     return true
   }
   async updateRecord(
