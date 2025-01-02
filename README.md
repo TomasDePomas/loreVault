@@ -62,20 +62,28 @@ TBD
   - ○ MacOS
 - ✓ Create .chest file format
   - ✓ add texts
-    - ○ names
-    - ○ tags in different levels
-    - ○ main content
-    - ○ rich text
-    - ○ images in text
-  - ○ add images
+    - ✓ names
+    - ✓ tags in different levels
+    - ✓ main content
+    - ✓ rich text
+    - ✓ images in text
+  - ✓ add images
   - ○ add map images
   - ✓ test opening/closing chest on desktop
   - ○ test opening/closing chest on mobile
   - ○ test opening/closing chest in browser
-- ○ create database based on .chest file for extra speed
-- ○ add text editor
-- ○ add image management
+- ✓ create database based on .chest file for extra speed
+  - ○ Terms database
+- ✓ add text editor
+- ✓ add image management
 - ○ add map management
 - ○ add overviews
-- ○ add view pages
-- ○ add search
+  - ○ Category pages
+- ✓ add view pages
+- ✓ add search
+
+### Bugs:
+- ○ Spaces disappearing around markup
+- ○ Unused images not removed from archive
+- ○ Images in text not user friendly
+- ○ unable to skip menu in wysiwyg while tabbing
