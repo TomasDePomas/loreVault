@@ -31,6 +31,7 @@
           label="Search item"
           outlined
           rounded
+          type="text"
           @update:model-value="searchLedger"
         />
         <q-list v-if="searchTerm">
@@ -46,7 +47,11 @@
             {{ record.identifier }}
           </q-item>
         </q-list>
-        <OpenRecord v-if="openedRecord" v-model:record="openedRecord" />
+        <OpenRecord
+          v-if="openedRecord"
+          v-model:record="openedRecord"
+          @close="openedRecord = null"
+        />
         <q-page-sticky v-else :offset="[18, 18]" position="bottom-right">
           <q-btn color="accent" fab icon="add" @click="startNewRecord" />
         </q-page-sticky>
@@ -90,7 +95,13 @@ const openChest = async (): Promise<void> => {
   chestOpened.value = true
 }
 
-const searchLedger = async (searchTerm: string): Promise<void> => {
+const searchLedger = async (
+  searchTerm: string | number | null,
+): Promise<void> => {
+  if (typeof searchTerm !== 'string') {
+    foundRecords.value = []
+    return
+  }
   foundRecords.value = await Ledger.findRecords(searchTerm)
 }
 const openRecord = async (record: LoreRecord): Promise<void> => {

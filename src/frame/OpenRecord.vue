@@ -110,7 +110,7 @@
       @click="saveEdit"
     />
     <template v-else>
-      <q-btn fab icon="close" size="sm" @click="record = null" />
+      <q-btn fab icon="close" size="sm" @click="emit('close')" />
       <q-btn color="accent" fab icon="edit" @click="startEdit" />
     </template>
   </q-page-sticky>
@@ -129,6 +129,10 @@ import { useDialog } from 'src/mixins/useDialog'
 const record = defineModel<
   Optional<LoreRecord, 'identifier'> & { content: string }
 >('record', { required: true })
+
+const emit = defineEmits<{
+  (e: 'close'): void
+}>()
 
 const { showPrompt } = useDialog()
 const editableIdentifier = ref<string | undefined>(undefined)

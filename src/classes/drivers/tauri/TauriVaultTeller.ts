@@ -84,4 +84,8 @@ export class TauriVaultTeller implements IVaultTellerDriver {
   ): Promise<boolean> {
     return Promise.resolve(false)
   }
+
+  newChest(_name: string): Promise<void> {
+    return Promise.resolve(undefined)
+  }
 }
