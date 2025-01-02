@@ -121,7 +121,6 @@ import { computed, nextTick, ref, toRaw, watch } from 'vue'
 import { LoreRecord } from 'src/types/LoreRecord'
 import { QEditor, QSelect } from 'quasar'
 import { Optional } from 'src/types/Optional'
-import { LoreRecordCategory } from 'src/types/LoreRecordCategory'
 import Ledger from 'src/classes/Ledger'
 import VaultTeller from 'src/classes/VaultTeller'
 import Clerk from 'src/classes/Clerk'
@@ -135,9 +134,9 @@ const { showPrompt } = useDialog()
 const editableIdentifier = ref<string | undefined>(undefined)
 const editableContent = ref<string | null>(null)
 const availableCategoryValues = ref<Record<string, string[]>>({})
-const editableCategories = ref<
-  { name: string; values: LoreRecordCategory[] }[] | null
->(null)
+const editableCategories = ref<{ name: string; values: string[] }[] | null>(
+  null,
+)
 const editorRef = ref<typeof QEditor>()
 const categorySelectRefs = ref<(typeof QSelect)[]>()
 
@@ -155,7 +154,7 @@ const startEdit = (): void => {
   for (const categoryName of Object.keys(record.value.categories)) {
     editableCategories.value.push({
       name: categoryName,
-      values: record.value.categories[categoryName],
+      values: record.value.categories[categoryName].map(({ value }) => value),
     })
   }
 
@@ -236,6 +235,7 @@ const saveEdit = (): void => {
   }
   record.value.identifier = editableIdentifier.value
   record.value.content = editableContent.value
+  record.value.categories = recordData.categories
   editableContent.value = null
   editableIdentifier.value = undefined
   editableCategories.value = null

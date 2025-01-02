@@ -13,7 +13,6 @@ export const writeLoreRecordToMd = (
     for (const categoryName in record.categories) {
       mdContent += `* ${categoryName}\n`
       for (const categoryValue of record.categories[categoryName]) {
-        console.log({ categoryValue })
         if (categoryValue.link) {
           mdContent += `\t* [${categoryValue.value}](${categoryValue.link})\n`
         } else {
