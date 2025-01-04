@@ -9,13 +9,19 @@ import Ledger from 'src/classes/Ledger'
 import { LoreRecord } from 'src/types/LoreRecord'
 import VaultTeller from 'src/classes/VaultTeller'
 import { writeLoreRecordToMd } from 'src/utils/writeLoreRecordToMd'
+import { decodeBase64FromBytes } from 'src/utils/base64Conversion'
 const { showToast } = useDialog()
 
 export class BrowserVaultTeller implements IVaultTellerDriver {
   private chest: JSZip | null = null
   private chestName: string = 'chest'
 
-  async newChest(name: string): Promise<void> {
+  async newChest(): Promise<void> {
+    const { showPrompt } = useDialog()
+    const name = await showPrompt('Name your new chest', 'New chest')
+    if (!name) {
+      return
+    }
     this.chestName = name
     this.chest = new JSZip()
   }
@@ -56,19 +62,21 @@ export class BrowserVaultTeller implements IVaultTellerDriver {
       return false
     }
     const markdownFiles = this.chest.file(/\.md$/)
-    for (const file of markdownFiles) {
-      if (file.dir) {
-        continue
-      }
-      try {
-        const content: string = await file.async('text')
-        const record = readLoreRecordMetaFromMd(content)
-        await Ledger.upsertRecord(record)
-      } catch (e) {
-        console.error(e)
-        await showToast({ message: 'Unable to read record' })
-      }
-    }
+    await Promise.all(
+      markdownFiles.map(async (file): Promise<void> => {
+        if (file.dir) {
+          return
+        }
+        try {
+          const content: string = await file.async('text')
+          const record = readLoreRecordMetaFromMd(content)
+          await Ledger.upsertRecord(record)
+        } catch (e) {
+          console.error(e)
+          await showToast({ message: 'Unable to read record' })
+        }
+      }),
+    )
     return true
   }
 
@@ -76,7 +84,7 @@ export class BrowserVaultTeller implements IVaultTellerDriver {
     identifier: LoreRecord['identifier'],
   ): Promise<string> {
     if (!this.chest) {
-      throw 'No chest open to read into ledger'
+      throw 'No chest open to get record from'
     }
     const file = this.chest.file(`${identifier}.md`)
     if (!file) {
@@ -132,13 +140,7 @@ export class BrowserVaultTeller implements IVaultTellerDriver {
     if (!imageFile) {
       throw 'Unable to find corresponding image'
     }
-    const image = await imageFile.async('uint8array')
-    let binary = ''
-    for (let i = 0; i < image.byteLength; i++) {
-      binary += String.fromCharCode(image[i])
-    }
-    const base64 = btoa(binary)
-
+    const base64 = decodeBase64FromBytes(await imageFile.async('uint8array'))
     if (imageUrl.endsWith('jpeg') || imageUrl.endsWith('jpg')) {
       return `data:image/jpeg;base64,${base64}`
     }

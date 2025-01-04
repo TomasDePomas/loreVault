@@ -5,5 +5,6 @@ declare global {
     tauriContainer?: {
       openedFile: string
     }
+    isTauri: boolean
   }
 }

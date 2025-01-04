@@ -13,6 +13,7 @@
           >{{ value }}</q-chip
         >
       </div>
+      <!-- eslint-disable-next-line vue/no-v-html-->
       <div class="record-content" v-html="record.content" />
     </q-card-section>
     <q-card-section v-else>
@@ -90,7 +91,7 @@
         }"
         min-height="5rem"
         :toolbar="[
-          [ 'skipMenu' ],
+          ['skipMenu'],
           [
             {
               label: 'Formatting',
@@ -250,7 +251,7 @@ const saveEdit = (): void => {
   editableCategories.value = null
 }
 const skipMenu = (): void => {
-  if(!editorRef.value){
+  if (!editorRef.value) {
     return
   }
   editorRef.value.focus()
@@ -293,15 +294,15 @@ watch(
     display: block;
   }
 
-  &--editor{
-    .q-editor{
-      &__toolbar-group:first-child{
-        position:absolute;
-        left:-10000px;
-        top:auto;
-        width:1px;
-        height:1px;
-        overflow:hidden;
+  &--editor {
+    .q-editor {
+      &__toolbar-group:first-child {
+        position: absolute;
+        left: -10000px;
+        top: auto;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
       }
     }
   }

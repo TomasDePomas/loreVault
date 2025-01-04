@@ -7,7 +7,7 @@ import { LoreRecord } from 'src/types/LoreRecord'
    storing of individual records
  */
 export interface IVaultTellerDriver extends IDriverClass {
-  newChest(name: string): Promise<void>
+  newChest(): Promise<void>
   openChest(): Promise<boolean>
   fillLedger(): Promise<boolean>
   getRecordContents(identifier: LoreRecord['identifier']): Promise<string>

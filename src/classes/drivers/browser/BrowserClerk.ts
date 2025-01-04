@@ -1,5 +1,6 @@
 import { IClerkDriver } from 'src/types/drivers/IClerkDriver'
 import { OpenedFile } from 'src/types/OpenedFile'
+import { resizeImage } from 'src/utils/resizeImage'
 
 export class BrowserClerk implements IClerkDriver {
   openImage(): Promise<OpenedFile | null> {
@@ -31,27 +32,20 @@ export class BrowserClerk implements IClerkDriver {
           ) {
             return resolve(null)
           }
-          const image = new Image()
-          image.onerror = () => resolve(null)
-          image.onload = () => {
-            const canvas = document.createElement('canvas')
-            const context = canvas.getContext('2d')
-            if (!context) {
+
+          resizeImage(base64).then((content) => {
+            if (!content) {
               return resolve(null)
             }
-            canvas.width = 300
-            canvas.height = (image.height / image.width) * 300
-            context.drawImage(image, 0, 0, canvas.width, canvas.height)
 
             if (!filename.endsWith('png')) {
               filename = filename.replace(/jpg$/i, 'png')
             }
             resolve({
               filename,
-              content: canvas.toDataURL(),
+              content,
             })
-          }
-          image.src = base64
+          })
         }
       }
       input.click()

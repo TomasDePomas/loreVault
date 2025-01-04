@@ -68,7 +68,7 @@ import Ledger from 'src/classes/Ledger'
 import { LoreRecord } from 'src/types/LoreRecord'
 import { useDialog } from 'src/mixins/useDialog'
 import OpenRecord from 'src/frame/OpenRecord.vue'
-const { showToast, showPrompt } = useDialog()
+const { showToast } = useDialog()
 
 const leftDrawerOpen = ref<boolean>(false)
 const chestOpened = ref<boolean>(false)
@@ -76,12 +76,8 @@ const searchTerm = ref<string>('')
 const openedRecord = ref<(LoreRecord & { content: string }) | null>(null)
 const foundRecords = ref<LoreRecord[]>([])
 const newChest = async (): Promise<void> => {
-  const name = await showPrompt('Name your new chest', 'New chest')
-  if (!name) {
-    return
-  }
   await Ledger.clear()
-  await VaultTeller.newChest(name)
+  await VaultTeller.newChest()
   await VaultTeller.fillLedger()
   leftDrawerOpen.value = false
   chestOpened.value = true

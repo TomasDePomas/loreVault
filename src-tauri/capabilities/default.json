@@ -11,10 +11,16 @@
     "sql:default",
     "fs:default",
     "sql:default",
-    "sql:default",
+    "sql:allow-execute",
     "store:default",
     "dialog:default",
-    "dialog:default",
-    "fs:default"
+    "fs:default",
+    "fs:allow-app-read-recursive",
+    "fs:allow-app-read",
+    "fs:allow-app-write",
+    {
+      "identifier": "fs:allow-exists",
+      "allow": [{ "path": "$APPCACHE/*" }]
+    }
   ]
 }

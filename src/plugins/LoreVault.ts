@@ -25,7 +25,7 @@ type LoreVaultDrivers = {
 export const LoreVault: Plugin = {
   install(_app: App, driverOverwrites: Partial<LoreVaultDrivers> = {}): void {
     let drivers: LoreVaultDrivers
-    if (!window.tauriContainer) {
+    if (!window.tauriContainer && (!import.meta.env.DEV || !window.isTauri)) {
       console.debug('Initializing browser drivers..')
       drivers = {
         keyStorage: BrowserKeyStorage,

@@ -71,7 +71,7 @@ TBD
   - ○ add map images
   - ✓ test opening/closing chest on desktop
   - ○ test opening/closing chest on mobile
-  - ○ test opening/closing chest in browser
+  - ✓ test opening/closing chest in browser
 - ✓ create database based on .chest file for extra speed
   - ○ Terms database
 - ✓ add text editor
@@ -85,5 +85,5 @@ TBD
 ### Bugs:
 - ○ Spaces disappearing around markup
 - ○ Unused images not removed from archive
-- ○ Images in text not user friendly
-- ○ unable to skip menu in wysiwyg while tabbing
+- ○ Images in text not user-friendly
+- ✓ unable to skip menu in wysiwyg while tabbing

@@ -2,12 +2,16 @@
 use tauri::Manager;
 use std::env;
 use crate::chest::chest_file;
+use crate::database::database_migrations;
+use tauri_plugin_sql::{Builder, Migration};
+
 
 mod chest;
-
+mod database;
 
 pub fn run() {
     let args: Vec<String> = env::args().collect();
+    let migrations: Vec<Migration> = database_migrations::get_migrations();
 
     tauri::Builder::default()
         .plugin(tauri_plugin_dialog::init())
@@ -15,7 +19,17 @@ pub fn run() {
         .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_sql::Builder::new().build())
         .plugin(tauri_plugin_shell::init())
-        .invoke_handler(tauri::generate_handler![open_chest, save_chest, close_chest])
+        .plugin(
+            Builder::default()
+                .add_migrations("sqlite:loreVault.db", migrations)
+                .build(),
+        )
+        .invoke_handler(tauri::generate_handler![
+            new_chest,
+            open_chest,
+            save_chest,
+            close_chest
+        ])
         .setup(move |app| {
             let mut opened_chest: &str = "";
             if args.len() > 1 {
@@ -35,6 +49,14 @@ pub fn run() {
         })
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
+}
+
+#[tauri::command]
+async fn new_chest(app: tauri::AppHandle) -> Result<String, String> {
+    if let Err(err) = chest_file::new(&app).await {
+        return Err(err.into());
+    }
+    Ok("OK".into())
 }
 
 #[tauri::command]

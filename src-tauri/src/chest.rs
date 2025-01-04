@@ -4,6 +4,14 @@ pub mod chest_file {
     use std::fs::{DirBuilder, remove_dir_all};
     use zip_extensions::*;
 
+    pub async fn new(app: &AppHandle) -> Result<String, String> {
+        if let Err(error) = prepare_cache_directory(app) {
+            return Err(format!("Unable to prepare cache directory: {error}").into())
+        }
+
+        Ok("OK".into())
+    }
+
     pub async fn open(app: &AppHandle, path: String) -> Result<String, String> {
         let cache_path = match prepare_cache_directory(app) {
             Result::Ok(path) => path,

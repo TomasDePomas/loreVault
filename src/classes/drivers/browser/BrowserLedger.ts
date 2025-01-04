@@ -7,6 +7,7 @@ import { BrowserLoreRecordCategoryEntity } from 'src/types/browser/BrowserLoreRe
 import { BrowserLoreVaultDB } from 'src/types/browser/BrowserLoreVaultDB'
 import { BrowserLoreRecordEntity } from 'src/types/browser/BrowserLoreRecordEntity'
 import { LoreRecordCategory } from 'src/types/LoreRecordCategory'
+import { convertEntitiesToRecords } from 'src/utils/convertEntitiesToRecords'
 
 export class BrowserLedger implements ILedgerDriver {
   private db: BrowserLoreVaultDB | null = null
@@ -18,6 +19,24 @@ export class BrowserLedger implements ILedgerDriver {
       categories: 'categoryName',
       recordCategories: '[recordIdentifier+categoryName+value]',
     })
+  }
+
+  async findRecords(term: string): Promise<LoreRecord[]> {
+    if (!this.db) {
+      throw 'BrowserLedger database not initialized'
+    }
+    const pattern = new RegExp(term, 'i')
+    const identifiers: BrowserLoreRecordEntity[] = await this.db.records
+      .filter((record) => pattern.test(record.identifier))
+      .limit(15)
+      .toArray()
+
+    const recordCategories = await this.db.recordCategories
+      .where('recordIdentifier')
+      .anyOf(identifiers.map(({ identifier }) => identifier))
+      .toArray()
+
+    return convertEntitiesToRecords(recordCategories)
   }
 
   async upsertRecord(record: LoreRecord): Promise<void> {
@@ -54,39 +73,6 @@ export class BrowserLedger implements ILedgerDriver {
       identifier: record.identifier,
     })
     this.db.recordCategories.bulkPut(recordCategories)
-  }
-
-  async findRecords(term: string): Promise<LoreRecord[]> {
-    if (!this.db) {
-      throw 'BrowserLedger database not initialized'
-    }
-    const pattern = new RegExp(term, 'i')
-    const identifiers: BrowserLoreRecordEntity[] = await this.db.records
-      .filter((record) => pattern.test(record.identifier))
-      .limit(15)
-      .toArray()
-
-    const recordCategories = await this.db.recordCategories
-      .where('recordIdentifier')
-      .anyOf(identifiers.map(({ identifier }) => identifier))
-      .toArray()
-
-    const records: Record<LoreRecord['identifier'], LoreRecord> = {}
-
-    for (const { recordIdentifier, categoryName, value } of recordCategories) {
-      if (!records[recordIdentifier]) {
-        records[recordIdentifier] = {
-          identifier: recordIdentifier,
-          categories: {},
-        }
-      }
-      if (!records[recordIdentifier].categories[categoryName]) {
-        records[recordIdentifier].categories[categoryName] = []
-      }
-      records[recordIdentifier].categories[categoryName].push({ value })
-    }
-
-    return Object.values(records)
   }
 
   async getCategories(): Promise<
