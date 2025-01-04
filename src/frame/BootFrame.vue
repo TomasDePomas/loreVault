@@ -3,22 +3,22 @@
     <q-header class="bg-primary text-white" elevated>
       <q-toolbar>
         <q-btn dense flat icon="menu" round @click="toggleLeftDrawer" />
-        <q-toolbar-title> {{ 'LoreVault' }}</q-toolbar-title>
+        <q-toolbar-title> LoreVault</q-toolbar-title>
       </q-toolbar>
     </q-header>
     <q-drawer v-model="leftDrawerOpen" bordered show-if-above side="left">
       <q-list>
         <q-item clickable @click="newChest">
-          <q-item-section>{{ 'newChest' }}</q-item-section>
+          <q-item-section>newChest</q-item-section>
         </q-item>
         <q-item clickable @click="openChest">
-          <q-item-section>{{ 'openChest' }}</q-item-section>
+          <q-item-section>openChest</q-item-section>
         </q-item>
         <q-item clickable @click="storeChest">
-          <q-item-section>{{ 'storeChest' }}</q-item-section>
+          <q-item-section>storeChest</q-item-section>
         </q-item>
         <q-item clickable @click="closeChest">
-          <q-item-section>{{ 'closeChest' }}</q-item-section>
+          <q-item-section>closeChest</q-item-section>
         </q-item>
       </q-list>
     </q-drawer>
@@ -35,9 +35,7 @@
           @update:model-value="searchLedger"
         />
         <q-list v-if="searchTerm">
-          <q-item v-if="foundRecords.length === 0">
-            {{ 'No items found' }}
-          </q-item>
+          <q-item v-if="foundRecords.length === 0"> No items found </q-item>
           <q-item
             v-for="record in foundRecords"
             :key="record.identifier"

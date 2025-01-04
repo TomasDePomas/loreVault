@@ -21,7 +21,7 @@
         <q-btn class="float-right" icon="close" @click="cancelEdit" />
         <q-input v-model="editableIdentifier" class="text-h6" />
       </div>
-      <strong>{{ 'Tags and categories' }}</strong>
+      <strong>Tags and categories</strong>
       <q-list>
         <q-item v-for="(category, index) in editableCategories" :key="index">
           <q-item-section style="max-width: 25%">
@@ -59,7 +59,7 @@
           </q-item-section>
         </q-item>
       </q-list>
-      <strong>{{ 'Content' }}</strong>
+      <strong>Content</strong>
       <q-editor
         ref="editorRef"
         v-model="editableContent"

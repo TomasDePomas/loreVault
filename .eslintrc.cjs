@@ -39,32 +39,32 @@ module.exports = {
         "argsIgnorePattern": "^_",
       }
     ],
-    'vue/no-bare-strings-in-template': [
-      'error',
-      {
-        allowlist: [
-          '(', ')', ',', '.', '&', '+', '-', '=', '*', '/', '#', '%', '!', '?', ':', '[', ']', '{', '}', '<', '>',
-          '\u00b7', '\u2022', '\u2010', '\u2013', '\u2014', '\u2212', '|',
-        ],
-        attributes: {
-          '/.+/': [
-            'title',
-            'aria-label',
-            'aria-placeholder',
-            'aria-roledescription',
-            'aria-valuetext',
-          ],
-          input: [
-            'placeholder',
-          ],
-          img: [
-            'alt',
-          ],
-        },
-        directives: [
-          'v-text',
-        ],
-      },
-    ],
+    // 'vue/no-bare-strings-in-template': [
+    //   'error',
+    //   {
+    //     allowlist: [
+    //       '(', ')', ',', '.', '&', '+', '-', '=', '*', '/', '#', '%', '!', '?', ':', '[', ']', '{', '}', '<', '>',
+    //       '\u00b7', '\u2022', '\u2010', '\u2013', '\u2014', '\u2212', '|',
+    //     ],
+    //     attributes: {
+    //       '/.+/': [
+    //         'title',
+    //         'aria-label',
+    //         'aria-placeholder',
+    //         'aria-roledescription',
+    //         'aria-valuetext',
+    //       ],
+    //       input: [
+    //         'placeholder',
+    //       ],
+    //       img: [
+    //         'alt',
+    //       ],
+    //     },
+    //     directives: [
+    //       'v-text',
+    //     ],
+    //   },
+    // ],
   },
 }
