@@ -175,4 +175,8 @@ export class BrowserVaultTeller implements IVaultTellerDriver {
     this.chest = null
     return true
   }
+
+  async hasOpenChest(): Promise<boolean> {
+    return this.chest !== null
+  }
 }

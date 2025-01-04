@@ -60,7 +60,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import VaultTeller from 'src/classes/VaultTeller'
 import Ledger from 'src/classes/Ledger'
 import { LoreRecord } from 'src/types/LoreRecord'
@@ -130,6 +130,10 @@ const startNewRecord = (): void => {
     content: '',
   }
 }
+
+onMounted(async (): Promise<void>=>{
+  chestOpened.value = await VaultTeller.hasOpenChest()
+})
 </script>
 
 <style lang="scss"></style>

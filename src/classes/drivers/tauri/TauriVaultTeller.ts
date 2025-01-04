@@ -212,4 +212,8 @@ export class TauriVaultTeller implements IVaultTellerDriver {
     }
     return true
   }
+
+  async hasOpenChest(): Promise<boolean> {
+    return await hasExtractedChest()
+  }
 }

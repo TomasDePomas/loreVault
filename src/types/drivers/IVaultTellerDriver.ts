@@ -20,4 +20,5 @@ export interface IVaultTellerDriver extends IDriverClass {
   replaceImage(imageUrl: string): Promise<string>
   storeChest(): Promise<boolean>
   closeChest(): Promise<boolean>
+  hasOpenChest(): Promise<boolean>
 }
