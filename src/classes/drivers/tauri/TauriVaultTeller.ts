@@ -31,8 +31,10 @@ import {
 const { showToast } = useDialog()
 
 export class TauriVaultTeller implements IVaultTellerDriver {
+  private openedPath: string | null = null
   async newChest(): Promise<void> {
     await invoke('new_chest')
+    this.openedPath = null
   }
   async openChest(): Promise<boolean> {
     const path = await open({
@@ -55,6 +57,7 @@ export class TauriVaultTeller implements IVaultTellerDriver {
       console.error('Unable to open chest', e)
       return false
     }
+    this.openedPath = path
     return true
   }
 
@@ -118,10 +121,8 @@ export class TauriVaultTeller implements IVaultTellerDriver {
     await Promise.all(
       assets.map(async ({ path, base64 }): Promise<void> => {
         if (base64.startsWith('data:image/jpeg;base64,')) {
-          path += '.jpg'
           base64 = base64.replace('data:image/jpeg;base64,', '')
         } else if (base64.startsWith('data:image/png;base64,')) {
-          path += '.png'
           base64 = base64.replace('data:image/png;base64,', '')
         } else {
           throw 'Unknown file type'
@@ -183,6 +184,7 @@ export class TauriVaultTeller implements IVaultTellerDriver {
   async storeChest(path?: string | null): Promise<boolean> {
     path =
       path ||
+      this.openedPath ||
       (await save({
         filters: [
           {
@@ -200,6 +202,7 @@ export class TauriVaultTeller implements IVaultTellerDriver {
       console.error('Unable to save chest', e)
       return false
     }
+    this.openedPath = path
     return true
   }
 
@@ -210,6 +213,7 @@ export class TauriVaultTeller implements IVaultTellerDriver {
       console.error('Unable to close chest', e)
       return false
     }
+    this.openedPath = null
     return true
   }
 

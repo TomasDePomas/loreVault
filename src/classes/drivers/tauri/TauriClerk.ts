@@ -14,23 +14,27 @@ export class TauriClerk implements IClerkDriver {
       filters: [
         {
           name: 'Image file',
-          extensions: ['png', 'jpeg'],
+          extensions: ['png', 'jpeg', 'jpg'],
         },
       ],
     })
     if (!path) {
       return null
     }
+    let filename = await basename(path)
     const bytes = await readFile(path)
-    const base64 = decodeBase64FromBytes(bytes)
+    let base64 = decodeBase64FromBytes(bytes)
+
+    if (filename.endsWith('jpeg') || filename.endsWith('jpg')) {
+      filename = filename.replace(/jpg$/i, 'png')
+      base64 = `data:image/jpeg;base64,${base64}`
+    } else if (filename.endsWith('png')) {
+      base64 = `data:image/png;base64,${base64}`
+    }
+    console.log({filename})
     const content = await resizeImage(base64)
     if (!content) {
       return null
-    }
-    let filename = await basename(path)
-
-    if (!filename.endsWith('png')) {
-      filename = filename.replace(/jpg$/i, 'png')
     }
 
     return {

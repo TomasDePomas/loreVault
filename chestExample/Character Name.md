@@ -11,12 +11,11 @@
     * Good
 
 ## Description
-![Image of the character](assets/example image.jpg "Same character image")
+![Image of the character](assets/example image.jpg "example image.jpg")
 Paragraphs written about the character. Loads of very interesting information
 
 ## Some other section
 
-![Image of the character](assets/example image.jpg "Character image")
+![Image of the character](assets/example image.jpg "example image.jpg")
 
-Further information detailing stuff
-
+Further information __detailing__ stuff

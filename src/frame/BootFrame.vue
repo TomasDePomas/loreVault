@@ -3,7 +3,7 @@
     <q-header class="bg-primary text-white" elevated>
       <q-toolbar>
         <q-btn dense flat icon="menu" round @click="toggleLeftDrawer" />
-        <q-toolbar-title> LoreVault</q-toolbar-title>
+        <q-toolbar-title>LoreVault</q-toolbar-title>
       </q-toolbar>
     </q-header>
     <q-drawer v-model="leftDrawerOpen" bordered show-if-above side="left">
@@ -78,6 +78,7 @@ const newChest = async (): Promise<void> => {
   await VaultTeller.newChest()
   await VaultTeller.fillLedger()
   leftDrawerOpen.value = false
+  openedRecord.value = null
   chestOpened.value = true
 }
 
@@ -86,6 +87,7 @@ const openChest = async (): Promise<void> => {
   await VaultTeller.openChest()
   await VaultTeller.fillLedger()
   leftDrawerOpen.value = false
+  openedRecord.value = null
   chestOpened.value = true
 }
 
@@ -118,6 +120,7 @@ const closeChest = async (): Promise<void> => {
   await VaultTeller.closeChest()
   await Ledger.clear()
   chestOpened.value = false
+  openedRecord.value = null
 }
 const toggleLeftDrawer = () => {
   leftDrawerOpen.value = !leftDrawerOpen.value
@@ -131,7 +134,7 @@ const startNewRecord = (): void => {
   }
 }
 
-onMounted(async (): Promise<void>=>{
+onMounted(async (): Promise<void> => {
   chestOpened.value = await VaultTeller.hasOpenChest()
 })
 </script>
